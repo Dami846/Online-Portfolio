@@ -16,7 +16,6 @@
       --text: #1a2a35;
       --muted: #607080;
       --border: #dde8ec;
-      --card-bg: #ffffff;
       --heading: 'Playfair Display', serif;
       --body: 'DM Sans', sans-serif;
     }
@@ -32,22 +31,12 @@
       background: #f4f9f8;
     }
 
-    /* Gradient background that shifts as you scroll */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: -1;
-      background: linear-gradient(
-        to bottom,
-        #f0faf8 0%,
-        #e8f6f3 20%,
-        #f0f4f8 45%,
-        #eef2f7 65%,
-        #f5f0fa 85%,
-        #faf0f5 100%
-      );
+      background: linear-gradient(to bottom, #f0faf8 0%, #e8f6f3 20%, #f0f4f8 45%, #eef2f7 65%, #f5f0fa 85%, #faf0f5 100%);
     }
 
-    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
@@ -63,10 +52,7 @@
     .nav-links a:hover { color: var(--teal); }
 
     /* HERO */
-    .hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding: 8rem 4rem 5rem;
-    }
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 5rem; }
     .hero-inner { max-width: 1100px; width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 5rem; align-items: center; }
     .hero-tag {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -80,8 +66,7 @@
     h1 {
       font-family: var(--heading);
       font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 800; line-height: 1.08;
-      color: var(--navy); margin-bottom: 1.5rem;
+      font-weight: 800; line-height: 1.08; color: var(--navy); margin-bottom: 1.5rem;
       opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
     }
     h1 em { font-style: italic; color: var(--teal); }
@@ -96,7 +81,6 @@
     .hero-stats { display: flex; gap: 3rem; margin-top: 3.5rem; opacity: 0; animation: fadeUp 0.7s 0.8s forwards; }
     .stat-num { font-family: var(--heading); font-size: 2.2rem; font-weight: 700; color: var(--teal); line-height: 1; }
     .stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.08em; }
-
     .hero-photo { opacity: 0; animation: fadeUp 0.7s 0.4s forwards; flex-shrink: 0; }
     .hero-photo img { width: 300px; height: 300px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 20px 60px rgba(10,159,138,0.15), 0 4px 20px rgba(0,0,0,0.08); }
 
@@ -118,30 +102,54 @@
     .about-mission h3 { font-family: var(--heading); font-size: 0.82rem; font-weight: 700; color: var(--teal); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.12em; }
     .about-mission p { color: var(--muted); font-size: 1rem; font-weight: 300; font-style: italic; line-height: 1.8; }
 
-    /* PROJECTS */
+    /* PROJECTS - image background cards */
     .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .project-card { background: #fff; border: 1.5px solid var(--border); border-radius: 20px; padding: 2.2rem; transition: all 0.3s; position: relative; overflow: hidden; }
-    .project-card:hover { border-color: var(--teal); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(10,159,138,0.1); }
-    .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; background: linear-gradient(135deg, #f0faf8, #eef2f8); }
-    .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-    .project-tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.25rem 0.7rem; border-radius: 100px; background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal-mid); }
+
+    .project-card {
+      border-radius: 20px; overflow: hidden;
+      position: relative; min-height: 380px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1.5px solid var(--border);
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(10,159,138,0.15); }
+
+    /* image bg cards */
+    .project-card.has-image .card-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: top center;
+      transition: transform 0.4s;
+    }
+    .project-card.has-image:hover .card-bg { transform: scale(1.03); }
+    .project-card.has-image .card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,33,55,0.95) 0%, rgba(13,33,55,0.7) 50%, rgba(13,33,55,0.15) 100%);
+    }
+    .project-card.has-image .card-content { position: relative; z-index: 2; padding: 2rem; }
+    .project-card.has-image h3 { color: #fff; font-family: var(--heading); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .project-card.has-image p { color: rgba(255,255,255,0.75); font-size: 0.88rem; font-weight: 300; line-height: 1.7; margin-bottom: 1rem; }
+    .project-card.has-image .project-link { color: var(--teal-mid); }
+    .project-card.has-image .project-tags { margin-bottom: 0.8rem; }
+
+    /* plain cards */
+    .project-card.plain { background: #fff; display: flex; flex-direction: column; justify-content: flex-start; }
+    .project-card.plain .card-content { padding: 2.2rem; flex: 1; display: flex; flex-direction: column; }
+    .project-card.plain h3 { font-family: var(--heading); font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; }
+    .project-card.plain p { color: var(--muted); font-size: 0.92rem; font-weight: 300; line-height: 1.75; margin-bottom: 1.2rem; flex: 1; }
+
+    .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .project-tag { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.22rem 0.65rem; border-radius: 100px; background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal-mid); }
+    .project-tag.dark { background: rgba(0,229,192,0.15); color: #00e5c0; border-color: rgba(0,229,192,0.3); }
     .project-tag.blue { background: #eef1fb; color: #4a6fd4; border-color: #c5d0f0; }
+    .project-tag.blue-dark { background: rgba(100,150,255,0.15); color: #90b4ff; border-color: rgba(100,150,255,0.3); }
     .project-tag.gold { background: #fdf6e3; color: #b07d10; border-color: #f0d990; }
-    .project-card h3 { font-family: var(--heading); font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; }
-    .project-card p { color: var(--muted); font-size: 0.92rem; font-weight: 300; line-height: 1.75; margin-bottom: 1.2rem; }
+
     .project-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--teal); font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: gap 0.2s; }
     .project-link:hover { gap: 0.7rem; }
-    .project-visual { background: linear-gradient(135deg, #e6f7f5, #eef2f8); border-radius: 12px; height: 200px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); }
-    .mock-ui { width: 85%; }
-    .mock-bar { height: 6px; border-radius: 3px; margin-bottom: 8px; background: var(--teal-mid); }
-    .mock-bar.accent { background: linear-gradient(90deg, var(--teal), #4a9fd4); width: 60%; }
-    .mock-bar.w80 { width: 80%; opacity: 0.5; } .mock-bar.w50 { width: 50%; opacity: 0.4; } .mock-bar.w70 { width: 70%; opacity: 0.35; }
-    .mock-dots { display: flex; gap: 5px; margin-bottom: 10px; }
-    .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .mock-dot.r { background: #ff5f57; } .mock-dot.y { background: #febc2e; } .mock-dot.g { background: var(--teal); }
-    .status-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; color: #b07d10; background: #fdf6e3; border: 1px solid #f0d990; border-radius: 100px; padding: 0.25rem 0.7rem; margin-bottom: 1.2rem; }
+    .status-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; color: #b07d10; background: #fdf6e3; border: 1px solid #f0d990; border-radius: 100px; padding: 0.22rem 0.65rem; margin-bottom: 1rem; }
     .status-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #b07d10; }
-    .flyer-thumb { width: 72px; height: auto; border-radius: 6px; border: 1.5px solid var(--border); position: absolute; bottom: 1.5rem; right: 1.5rem; opacity: 0.7; transition: opacity 0.2s, transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+    .flyer-thumb { width: 68px; height: auto; border-radius: 6px; border: 1.5px solid var(--border); position: absolute; bottom: 1.5rem; right: 1.5rem; opacity: 0.7; transition: opacity 0.2s, transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     .flyer-thumb:hover { opacity: 1; transform: scale(1.1); }
 
     /* EXPERIENCE */
@@ -169,7 +177,7 @@
       nav { padding: 1rem 1.5rem; } .nav-links { display: none; }
       .hero { padding: 7rem 1.5rem 4rem; } .hero-inner { grid-template-columns: 1fr; } .hero-photo { display: none; }
       section { padding: 4rem 1.5rem; } .about-grid { grid-template-columns: 1fr; }
-      .projects-grid { grid-template-columns: 1fr; } .project-card.featured { grid-column: 1; grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
       .exp-item { grid-template-columns: 1fr; gap: 0.5rem; } .contact-inner { padding: 2.5rem 1.5rem; }
       .full-divider { margin: 0 1.5rem; }
     }
@@ -187,6 +195,7 @@
   </ul>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
     <div>
@@ -212,15 +221,16 @@
 
 <hr class="full-divider" />
 
+<!-- ABOUT -->
 <section id="about">
   <div class="section-label">About Me</div>
   <h2>Where clinical meets<br/>cutting-edge tech.</h2>
   <div class="about-grid">
     <div class="about-text">
       <p class="about-pitch">"I work with organizations that need someone who understands both the data and the clinical reality behind it."</p>
-      <p>I'm a <strong>Registered Nurse turned Healthcare IT professional</strong>, completing my Master's in Information Systems at Bowie State University (May 2026).</p>
-      <p>What sets me apart isn't just my technical skills — it's that I've been on the floor. I know what it feels like when systems are clunky, when data doesn't flow, when providers are overwhelmed. That clinical lens shapes every solution I build.</p>
-      <p>Right now I'm <strong>building AI-powered dashboards</strong> for a government planning agency and <strong>supporting CMS MIPS quality reporting</strong> in healthcare IT — simultaneously.</p>
+      <p>I'm a <strong>Registered Nurse turned Healthcare IT professional</strong>, completing my Master's in Information Systems at Bowie State University (May 2026). My path hasn't been conventional — and that's exactly what makes it powerful.</p>
+      <p>I've sat at a patient's bedside and I've built AI-powered systems from the ground up. That dual perspective means I don't just analyze data — I understand what it represents for real people, and I build with that in mind.</p>
+      <p>Right now I'm <strong>building dashboards and AI tools</strong> for Prince George's County Planning Department and <strong>supporting CMS MIPS quality reporting</strong> at MedTech Ingenuity Corp — simultaneously. I'm drawn to work that sits at the intersection of people, data, and purpose.</p>
       <div class="skills-grid">
         <span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">Power BI</span>
         <span class="skill-tag">React</span><span class="skill-tag">Node.js</span><span class="skill-tag">OpenAI API</span>
@@ -230,8 +240,8 @@
     </div>
     <div>
       <div class="about-mission">
-        <h3>My Mission</h3>
-        <p>"I find innovative ways to improve operational efficiency — making it easier for healthcare providers to deliver care and for clients to experience excellent service. My clinical background gives me something most IT professionals don't: firsthand understanding of the real pain points providers and patients face daily."</p>
+        <h3>What Drives Me</h3>
+        <p>"Healthcare and technology only mean something when they reach the people who need them most. I believe in building solutions that are not just smart — but human. My goal is to use data and innovation to make care easier to give, and easier to receive — especially for those who've historically been underserved or overlooked."</p>
       </div>
     </div>
   </div>
@@ -239,54 +249,71 @@
 
 <hr class="full-divider" />
 
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-label">Projects</div>
   <h2>Work that solves<br/>real problems.</h2>
   <div class="projects-grid">
 
-    <div class="project-card">
-      <div class="project-visual" style="margin:-2.2rem -2.2rem 1.5rem -2.2rem; border-radius:18px 18px 0 0; height:160px; width:calc(100% + 4.4rem);">
-        <div class="mock-ui">
-          <div class="mock-dots"><span class="mock-dot r"></span><span class="mock-dot y"></span><span class="mock-dot g"></span></div>
-          <div class="mock-bar accent"></div><div class="mock-bar w80"></div><div class="mock-bar w50"></div>
-          <div style="height:8px"></div>
-          <div class="mock-bar w70"></div><div class="mock-bar w80"></div><div class="mock-bar w50"></div>
+    <!-- BSU Connect Hub - image bg -->
+    <div class="project-card has-image">
+      <div class="card-bg" style="background-image: url('bsu-screenshot.png');"></div>
+      <div class="card-overlay"></div>
+      <div class="card-content">
+        <div class="project-tags">
+          <span class="project-tag dark">React</span>
+          <span class="project-tag dark">TypeScript</span>
+          <span class="project-tag dark">OpenAI GPT-4</span>
+          <span class="project-tag dark">PostgreSQL</span>
         </div>
+        <h3>BSU Connect Hub</h3>
+        <p>An AI-powered international student support portal for 300+ Bowie State University students. Built end-to-end as my MS capstone — features role-based access, housing listings, mentorship, and a GPT-4 chatbot.</p>
+        <a href="https://website2-phi-rust.vercel.app/" target="_blank" class="project-link">View Live Project →</a>
       </div>
-      <div class="project-tags">
-        <span class="project-tag">React</span><span class="project-tag">TypeScript</span>
-        <span class="project-tag">Node.js</span><span class="project-tag">OpenAI GPT-4</span><span class="project-tag">PostgreSQL</span>
-      </div>
-      <h3>BSU Connect Hub</h3>
-      <p>An AI-powered international student support portal for Bowie State University's 300+ international students. Features role-based access, a GPT-4 chatbot, and real-time support — built end-to-end as my MS capstone.</p>
-      <a href="https://website2-phi-rust.vercel.app/" target="_blank" class="project-link">View Live Project →</a>
     </div>
 
-    <div class="project-card" style="padding-bottom:3.5rem;">
-      <div class="project-tags">
-        <span class="project-tag gold">Excel</span><span class="project-tag gold">Power Query</span>
-        <span class="project-tag gold">Dashboards</span><span class="project-tag gold">Teaching</span>
+    <!-- IRRD Dashboard - image bg -->
+    <div class="project-card has-image">
+      <div class="card-bg" style="background-image: url('irrd-screenshot.png'); background-position: top center;"></div>
+      <div class="card-overlay"></div>
+      <div class="card-content">
+        <div class="status-badge" style="background:rgba(255,179,71,0.15); color:#ffb347; border-color:rgba(255,179,71,0.3);">In Progress · Summer 2026</div>
+        <div class="project-tags">
+          <span class="project-tag blue-dark">Power BI</span>
+          <span class="project-tag blue-dark">Data Analytics</span>
+          <span class="project-tag blue-dark">AI Integration</span>
+        </div>
+        <h3>IRRD Planning Intake Dashboard — M-NCPPC</h3>
+        <p>Built interactive dashboards for the Intake and Regulatory Review Division at Prince George's County, tracking permit workflows and enabling data-driven planning decisions.</p>
       </div>
-      <h3>Excel for Data Analytics — BSU Workshop</h3>
-      <p>Partnered with the BSU Center for Data Analytics to design and deliver a hands-on Excel workshop at Bowie State's DARTT Lab. Covered Power Query, pivot tables, XLOOKUP, and interactive dashboards — equipping undergraduate and graduate students with practical skills for the Future of Excel.</p>
+    </div>
+
+    <!-- Excel Workshop -->
+    <div class="project-card plain" style="position:relative;">
+      <div class="card-content">
+        <div class="project-tags">
+          <span class="project-tag gold">Excel</span>
+          <span class="project-tag gold">Power Query</span>
+          <span class="project-tag gold">Dashboards</span>
+          <span class="project-tag gold">Teaching</span>
+        </div>
+        <h3>Excel for Data Analytics — BSU Workshop</h3>
+        <p>Partnered with the BSU Center for Data Analytics to design and deliver a hands-on Excel workshop at Bowie State's DARTT Lab. Covered Power Query, pivot tables, XLOOKUP, and interactive dashboards for undergraduate and graduate students — equipping them for the Future of Excel.</p>
+      </div>
       <img src="excel-flyer.png" alt="Workshop Flyer" class="flyer-thumb" />
     </div>
 
-    <div class="project-card">
-      <div class="status-badge">In Progress · Summer 2026</div>
-      <div class="project-tags">
-        <span class="project-tag blue">Power BI</span><span class="project-tag blue">Data Analytics</span><span class="project-tag blue">AI Integration</span>
+    <!-- MIPS -->
+    <div class="project-card plain">
+      <div class="card-content">
+        <div class="project-tags">
+          <span class="project-tag">CMS QPP</span>
+          <span class="project-tag">MIPS Reporting</span>
+          <span class="project-tag">Tebra EHR</span>
+        </div>
+        <h3>MIPS Quality Reporting Workflow</h3>
+        <p>Supported end-to-end CMS Quality Payment Program reporting for healthcare providers at MedTech Ingenuity Corp — extracting EHR data, validating quality measures across all four MIPS categories, and submitting to the CMS QPP portal.</p>
       </div>
-      <h3>Planning Intake Dashboard — M-NCPPC</h3>
-      <p>Built interactive dashboards for the Intake and Regulatory Review Division at Prince George's County Planning Department, streamlining permit workflows and enabling data-driven planning decisions for the division.</p>
-    </div>
-
-    <div class="project-card">
-      <div class="project-tags">
-        <span class="project-tag">CMS QPP</span><span class="project-tag">MIPS Reporting</span><span class="project-tag">Tebra EHR</span>
-      </div>
-      <h3>MIPS Quality Reporting Workflow</h3>
-      <p>Supported end-to-end CMS Quality Payment Program reporting for healthcare providers at MedTech Ingenuity Corp — extracting EHR data, validating quality measures across all four MIPS categories, and submitting reports to the CMS QPP portal.</p>
     </div>
 
   </div>
@@ -294,6 +321,7 @@
 
 <hr class="full-divider" />
 
+<!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-label">Experience</div>
   <h2>Where I've been<br/>building.</h2>
@@ -336,6 +364,7 @@
 
 <hr class="full-divider" />
 
+<!-- CONTACT -->
 <section id="contact">
   <div class="contact-inner">
     <div class="section-label" style="text-align:center">Get In Touch</div>
